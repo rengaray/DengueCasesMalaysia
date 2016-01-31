@@ -9,6 +9,9 @@ fluidPage(
                 ),
 
     sidebarPanel(
+       helpText("Please input the CSV File for Data (Obtain from GitHub Link Below)"),
+       fileInput('datafile', 'Choose Dengue Case Data File',
+                 accept=c('text/csv', 'text/comma-separated-values,text/plain')),
       helpText("Please select ALL or the Respective Year",
                "and view \"Summary of Cases By State\" tab"),
       selectInput("datayear", label = "Please Select Year:", choices = data_years),

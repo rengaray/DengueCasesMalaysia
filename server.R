@@ -1,17 +1,40 @@
 library(ggplot2)
 library(data.table)
 
+dt <-read.csv("DengueCases2011to2015byState.csv")
+
+shinyServer(
 function(input, output) {
+   
+  #dt <-read.csv("DengueCases2011to2015byState.csv")
   
-  dt <-read.csv("DengueCases2011to2015byState.csv")
+  Data <- reactive({
+    
+    
+    # input$file1 will be NULL initially. After the user selects and uploads a 
+    # file, it will be a data frame with 'name', 'size', 'type', and 'datapath' 
+    # columns. The 'datapath' column will contain the local filenames where the 
+    # data can be found.
+    
+    inFile <- input$datafile
+    
+    if (is.null(inFile))
+      return(NULL)
+    
+    dt <- read.table(inFile$datapath)})
   
+                       
   #Sum No of Cases by Week in a Year
+ 
   dtsumWeek <- aggregate(. ~ State+Year+Week, data=dt, FUN=sum)
   columns<- c("State","Year","Week","Total_Cases")
   
   
   # Display No Of Cases By State By Year
     output$data_table <- renderTable({
+#     inFile <-input$datafile
+#     if(is.null(inFile)){return(NULL)}
+#     dt <- read.table(inFile$datapath)
     dtsum <- aggregate(. ~ State+Year, data=dt, FUN=sum)
     columns<- c("State","Year","Total_Cases")
     dtDisplay <- dtsum[,columns]
@@ -82,4 +105,4 @@ function(input, output) {
       }
    })
     
-}
+})
