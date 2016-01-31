@@ -1,7 +1,8 @@
 library(ggplot2)
 library(data.table)
 
-dt <-read.csv("./DengueCases2011to2015byState.csv")
+#setwd("./")
+dt <-read.csv("./Data/DengueCases2011to2015ByState.csv")
 
 shinyServer(
 function(input, output) {
