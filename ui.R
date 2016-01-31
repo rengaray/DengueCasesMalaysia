@@ -17,7 +17,7 @@ fluidPage(
       selectInput("graf1", label = "Select Plot Required:", choices = data_graf),
       br(),
       helpText("If selecting \"Trend By Week\", please choose the Week:"),
-      sliderInput("dataweekEnd","Week",1,52,1,1),
+      sliderInput("dataweek","Week",1,52,1,1),
       br(),
       a(href = "https://github.com/rengaray/DengueCasesMalaysia.git", "The Shiny Apps server.R and ui.R Source code")
     ),

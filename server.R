@@ -49,24 +49,35 @@ function(input, output) {
     # Plotting Task based on User Input
     
     output$data_plot <- renderPlot({
+      
+      dtsum <- aggregate(. ~ State+Year, data=dt, FUN=sum)
+      columns<- c("State","Year","Total_Cases")
+      dtDisplay <- dtsum[,columns]
+      dtDisplay <- as.data.table(dtDisplay) 
+      dyear <- as.character(input$datayear)
+      dweek <- as.numeric(input$dataweek)
+      
       dat <- as.data.table(dt)
       dgraf <- as.character(input$graf1)
       if (dgraf == "By Year"){ 
         dat.by.year <- dat[,sum(Total_Cases),by=Year]
         names(dat.by.year) <- c('Year','Total_Cases')
-       # graf1 <- barplot(as.numeric(dat.by.year$Total_Cases),names.arg=dat.by.year$Year, main="Total Dengue Cases from 2011 to 2015", xlab="Year", ylab="Total Cases", ylim=c(0,800000),col="blue")
-       # text(x = graf1, y = dat.by.year$Total_Cases, label = dat.by.year$Total_Cases, pos = 3, cex = 0.8, col = "red")
-          
-        ggplot(data=dat.by.year, aes(x=factor(Year), y=Total_Cases))+geom_bar(stat="identity",position="dodge")+labs(title="Total Dengue Cases from 2011 to 2015", x="Year",y="Total Cases")+theme_bw()
+       graf1 <- barplot(as.numeric(dat.by.year$Total_Cases),names.arg=dat.by.year$Year, main="Total Dengue Cases from 2011 to 2015 by Year", xlab="Year", ylab="Total Cases", ylim=c(0,800000),col="blue")
+       text(x = graf1, y = dat.by.year$Total_Cases, label = dat.by.year$Total_Cases, pos = 3, cex = 0.8, col = "red")
           
       }  
         
       else if(dgraf =="By State")
       {
-        
+        dat.by.state <- dat[,sum(Total_Cases),by=State]
+        names(dat.by.state) <- c('State','Total_Cases')
+        graf2 <- barplot(as.numeric(dat.by.state$Total_Cases),names.arg=dat.by.state$State, main="Total Dengue Cases from 2011 to 2015 by State", xlab="State", ylab="Total Cases", ylim=c(0,1000000),col="blue")
+        text(x = graf2, y = dat.by.state$Total_Cases, label = dat.by.state$Total_Cases, pos = 3, cex = 0.8, col = "red")
       }
       else if (dgraf =="Trend By Week")
       {
+        
+        print("Work in Progress!")
         
       }
    })
